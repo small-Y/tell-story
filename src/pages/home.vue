@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <header class="head">
-      <div class="headimg"></div>
+      <router-link to="/main"><div class="headimg"></div></router-link>
       <div class="headCla">
         <span @click='change' class="active"><router-link to='/main'>首页</router-link></span>
         <span @click='change'><router-link to='/discover'>推荐</router-link></span>
@@ -10,7 +10,7 @@
       </div>
       <div class="headint">
         <div class="search"></div>
-        <div class="write">写故事</div>
+        <div class="write" @click="writeStory">写故事</div>
         <template v-if="user!=''">
           <div class="center"></div>
         </template>
@@ -48,6 +48,32 @@
           </div>
         </div>
     </div>
+    <div class="writeBox">
+      <header class="head">
+        <div class="headint">
+          <div class="publish">发布</div>
+          <div class="center"></div>
+          <div class="storyClose" @click="storyClose">关闭</div>
+        </div>
+      </header>
+      <section class="chooseType">
+        <p class="text1">选择故事类型</p>
+        <p class="text2">选择准确的故事类型能让你的故事让更多感兴趣的读者看到。</p>
+        <div class="typelist" >
+          <template v-for="type in typeList">
+            <p @click='chonseType'>{{type}}</p>
+          </template>
+        </div>
+      </section>
+      <div class="storyBox">
+        <div class="addImg">
+          <div class="backImg"></div>
+          <p>故事封面</p>
+        </div>
+        <div></div>
+      </div>
+    </div>
+    
     <router-view></router-view>
   </div>
 </template>
@@ -58,7 +84,9 @@ export default {
   name: 'Home',
   data () {
     return {
-      user: ''
+      user: '111',
+      typeList:['真事','秘密'],
+      type:''
     }
   },
   methods:{
@@ -67,8 +95,6 @@ export default {
       $(e.target).parent().addClass('active');
     },
     gologinPage:function(){
-      console.log(111);
-      
       $(".model").css("display","block");
     },
     Close:function(){
@@ -89,6 +115,22 @@ export default {
     },
     regist:function(){
       
+    },
+    writeStory:function(){
+      if(this.user!=''){
+        $(".writeBox").css("display","block");
+        $(".headint").css("width","20%");
+      }else{
+        $(".model").css("display","block");
+      }
+    },
+    storyClose:function(){
+      $(".writeBox").css("display","none");
+      $(".headint").css("width","30%")
+    },
+    chonseType:function(e){
+      this.type=$(e.target).text();
+      $(".chooseType").css("display","none");
     }
   }
 }
@@ -105,7 +147,7 @@ a{
   height: 80px;
   width: 100%;
   background-color: #fff;
-  position: relative;
+  position: fixed;
   border-bottom: 1px solid lightgray;
 }
 .head .headimg{
@@ -272,5 +314,96 @@ a{
 #rpsw{
   margin-top: 30px;
 }
+.writeBox{
+  width: 100%;
+  height: 110%;
+  position: fixed;
+  background-color: #fff;;
+  z-index: 99999;
+  display: none;
+  top: 0;
+}
+.publish{
+  height: 50px;
+  width: 100px;
+  text-align: center;
+  font-size: 20px;
+  line-height: 50px;
+  border: 1px solid #27c4b5;
+  border-radius: 20px;
+  margin-left: 50px;
+}
+.storyClose{
+  font-size: 20px;
+  margin-left: 50px;
+  height: 50px;
+  width: 80px;
+  border: 1px solid #27c4b5;
+  line-height: 50px;
+  text-align: center;
+  border-radius: 10px;
+}
+.chooseType{
+  height: 350px;
+  width: 500px;
+  border: 1px solid lightgray;
+  box-shadow: 0px 0px 10px 10px gray;
+  margin-left: calc(50% - 250px);
+  margin-top: 200px;
+}
+.chooseType .text1{
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
+}
+.chooseType .text2{
+  font-size: 16px;
+  text-align: center;
+  margin-top: 20px;
+}
+.chooseType .typelist{
+  margin-top: 50px;
+}
+.typelist p{
+  font-size: 18px;
+  text-align: center;
+  height: 50px;
+  line-height: 50px;
+}
+.typelist p:hover{
+  background-color: lightgray;
+}
+.storyBox{
+  margin-top: 100px;
+  width: 70%;
+  margin-left: 15%;
+  border: 1px solid lightgray;
+  cursor: pointer;
+}
+.storyBox .addImg{
+  height: 100px;
+  width: 100%;
+  position: relative;
+}
+.addImg .backImg{
+  height: 60px;
+  width: 60px;
+  position: absolute;
+  top: 20px;
+  left: 40%;
+  background-image: url(../assets/img.jpg);
+  background-size: 100% 100%;
+}
+.addImg p{
+  height: 100px;
+  width: 100px;
+  font-size: 20px;
+  line-height: 100px;
+  position: absolute;
+  left: 48%;
+  color: gray;
+}
+
 </style>
   

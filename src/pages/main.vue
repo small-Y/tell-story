@@ -61,11 +61,13 @@ export default {
   width: 70%;
   float: left;
   display: inline-block;
+  margin-top: 80px;
 }
 .mianRight{
   width: 30%;
   height: 500px;
   display: inline-block;
+  margin-top: 80px;
 }
 .imgactive{
   background-color: #444 !important
