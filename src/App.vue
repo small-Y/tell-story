@@ -19,4 +19,7 @@
       position: absolute;
       z-index: 10;
   }
+  input{
+    outline: none;
+  }
 </style>

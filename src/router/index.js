@@ -6,6 +6,9 @@ import Main from '@/pages/main'
 import Discover from '@/pages/discover'
 import True from '@/pages/true'
 import Screm from '@/pages/screm'
+import Search from '@/pages/search'
+import Mymain from '@/pages/mymain'
+import Setting from '@/pages/setting'
 
 Vue.use(Router)
 
@@ -21,6 +24,21 @@ export default new Router({
         { path: '/true', name: 'True',component: True },
         { path: '/screm', name: 'Screm',component: Screm }
       ]
+    },
+    {
+      path: '/search',
+      name: 'Search',
+      component: Search
+    },
+    {
+      path: '/mymain',
+      name: 'Mymain',
+      component: Mymain
+    },
+    {
+      path: '/setting',
+      name: 'Setting',
+      component: Setting
     }
   ]
 })

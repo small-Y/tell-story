@@ -1,98 +1,164 @@
 <template>
   <div class="home">
-    <header class="head">
-      <router-link to="/main"><div class="headimg"></div></router-link>
-      <div class="headCla">
-        <span @click='change' class="active"><router-link to='/main'>首页</router-link></span>
-        <span @click='change'><router-link to='/discover'>推荐</router-link></span>
-        <span @click='change'><router-link to='/true'>真事</router-link></span>
-        <span @click='change'><router-link to='/screm'>秘密</router-link></span>
-      </div>
-      <div class="headint">
-        <div class="search"></div>
-        <div class="write" @click="writeStory">写故事</div>
-        <template v-if="user!=''">
-          <div class="center"></div>
-        </template>
-        <template v-else>
-          <div class="login" @click="gologinPage">注册/登录</div>
-        </template>
-      </div>
-    </header>
-    <div class="model">
-        <div class="loginClose" @click="Close">关闭</div>
-        <div class="liginBox box">
-          <span>说说故事吧</span>
-          <div>
-            <input type="text" class="put" id="username" placeholder="用户名">
-            <br>
-            <input type="text" class="put" id="password" placeholder="密码">
-          </div>
-          <div class="loginbtns btns">
-            <button class="loginBtn Btn1" @click="login">登录</button>
-            <button class="registBtn Btn2" @click="goregistpage">注册</button>
-          </div>
-        </div>
-        <div class="registBox box">
-          <span>说说故事吧</span>
-          <div>
-            <input type="text" class="put" id="registname" placeholder="用户名">
-            <br>
-            <input type="text" class="put" id="registpsw" placeholder="密码">
-            <br>
-            <input type="text" class="put" id="rpsw" placeholder="确认密码">
-          </div>
-          <div class="registbtns btns">
-            <button class="registB Btn1" @click="regist">注册</button>
-            <button class="cancelBtn Btn2" @click="cancel">取消</button>
-          </div>
-        </div>
-    </div>
-    <div class="writeBox">
+    <div class="bighome">
       <header class="head">
-        <div class="headint">
-          <div class="publish">发布</div>
-          <div class="center"></div>
-          <div class="storyClose" @click="storyClose">关闭</div>
+        <div class="headimg"></div>
+        <div class="headCla">
+          <span @click='change' class="active"><router-link to='/main'>首页</router-link></span>
+          <span @click='change'><router-link to='/discover'>推荐</router-link></span>
+          <span @click='change'><router-link to='/true'>真事</router-link></span>
+          <span @click='change'><router-link to='/screm'>秘密</router-link></span>
         </div>
-      </header>
-      <section class="chooseType">
-        <p class="text1">选择故事类型</p>
-        <p class="text2">选择准确的故事类型能让你的故事让更多感兴趣的读者看到。</p>
-        <div class="typelist" >
-          <template v-for="type in typeList">
-            <p @click='chonseType'>{{type}}</p>
+        <div class="headint">
+          <router-link to="/search"><div class="search"></div></router-link>
+          <div class="write" @click="writeStory">写故事</div>
+          <template v-if="user!=''">
+            <div class="center" @click='setcenter'>
+              <s class="d"></s>
+              <div class="setting">
+                <ul>
+                  <router-link to="/mymain"><li>主页</li></router-link>
+                  <router-link to="/setting"><li>设置</li></router-link>
+                  <li @click='loginout'>登出</li>
+                </ul>
+              </div>
+            </div>
+          </template>
+          <template v-else>
+            <div class="login" @click="gologinPage">注册/登录</div>
           </template>
         </div>
-      </section>
-      <div class="storyBox">
-        <div class="addImg">
-          <div class="backImg"></div>
-          <p>故事封面</p>
-        </div>
-        <div></div>
+      </header>
+      <div class="model">
+          <div class="loginClose" @click="Close">关闭</div>
+          <div class="liginBox box">
+            <span>说说故事吧</span>
+            <div>
+              <input type="text" class="put" id="username" placeholder="用户名">
+              <br>
+              <input type="text" class="put" id="password" placeholder="密码">
+            </div>
+            <span class="redspan1" style="color: red; font-size: 12px; height: 50px;"></span>
+            <div class="loginbtns btns">
+              <button class="loginBtn Btn1" @click="login">登录</button>
+              <button class="registBtn Btn2" @click="goregistpage">注册</button>
+            </div>
+          </div>
+          <div class="registBox box">
+            <span>说说故事吧</span>
+            <div>
+              <input type="text" class="put" id="registname" placeholder="用户名">
+              <br>
+              <input type="text" class="put" id="registpsw" placeholder="密码">
+              <br>
+              <input type="text" class="put" id="rpsw" placeholder="确认密码">
+            </div>
+            <span class="redspan2" style="color: red; font-size: 12px; height: 50px;"></span>
+            <div class="registbtns btns">
+              <button class="registB Btn1" @click="regist">注册</button>
+              <button class="cancelBtn Btn2" @click="cancel">取消</button>
+            </div>
+          </div>
       </div>
+      <div class="writeBox">
+        <header class="head">
+          <div class="headint">
+            <!-- <el-button type="text" class="publish" @click='publish'>发布</el-button> -->
+            <div class="publish" @click='publish'>发布</div>
+            <div class="center"></div>
+            <div class="storyClose" @click="storyClose">关闭</div>
+          </div>
+        </header>
+        <section class="chooseType">
+          <p class="text1">选择故事类型</p>
+          <p class="text2">选择准确的故事类型能让你的故事让更多感兴趣的读者看到。</p>
+          <div class="typelist">
+            <template v-for="type in typeList">
+              <p @click='chonseType'>{{type}}</p>
+            </template>
+          </div>
+        </section>
+        <div class="storyBox">
+          <div class="backphoto"><img src="" alt=""></div>
+          <div class="addImg" @click="chooseImg" >
+            <div class="backImg"></div>
+            <p>故事封面</p>
+            <input id="addImg" type="file" @change='changeImg' accept="image/*" style="display: none;">
+          </div>
+          <div class="storyHead">
+            <input type="text" id="storyHead"  placeholder="故事标题">
+          </div>
+          <div class="addStoryTip" @click="addContent"></div>
+          <div id="contentBox"></div>
+        </div>
+      </div>
+      <router-view></router-view>
     </div>
+    <div class="smallhome">
     
-    <router-view></router-view>
+    </div>
   </div>
+ 
 </template>
 
 <script>
 import $ from 'jquery'
+import qs from 'qs'
 export default {
   name: 'Home',
   data () {
     return {
-      user: '111',
+      user: '',
       typeList:['真事','秘密'],
-      type:''
+      type:'',
+      isshow:false
     }
   },
+  mounted () {
+    this.getCookie();
+    this.init();
+  },
   methods:{
+    init:function(){
+      
+      var initwidth=document.body.clientWidth;
+      if(initwidth<=900){
+          $(".bighome").css('display','none');
+          $(".smallhome").css('display','block');
+      }else{
+          $(".bighome").css('display','block');
+          $(".smallhome").css('display','none');
+      }
+      window.onresize = function(){
+        var width=document.body.clientWidth;
+        if(width<=900){
+          $(".bighome").css('display','none');
+          $(".smallhome").css('display','block');
+        }else{
+          $(".bighome").css('display','block');
+          $(".smallhome").css('display','none');
+        }
+      }
+    },
+    getCookie:function(){
+      var arr = document.cookie.split(";"); 
+      if(arr[0]!=''){
+        this.user=arr[0].split("=")[1];
+      }
+    },
     change:function(e){
       $(e.target).parent().parent().children().removeClass('active');
       $(e.target).parent().addClass('active');
+    },
+    setcenter:function(){
+      this.isshow=!this.isshow;
+      if(this.isshow){
+        $('.d').css('display','block');
+        $('.setting').css("display",'block');
+      }else{
+        $('.d').css('display','none');
+        $('.setting').css("display",'none');
+      }
     },
     gologinPage:function(){
       $(".model").css("display","block");
@@ -111,10 +177,45 @@ export default {
       $(".registBox").css("display","none");
     },
     login:function(){
-
+      var username=$("#username").val();
+      var password=$("#password").val();
+      this.$http.post("/storyapi/login",qs.stringify({
+        'username':username,
+        'password':password
+       })).then(res=>{
+         $(".redspan1").text(res.data.msg);
+         this.user=username;
+         document.cookie = 'name'+ "=" +username;
+       },err=>{
+         console.log(err);
+         
+       })
+    },
+    loginout:function(){
+      document.cookie = "name=" +'';
+      // this.$router.push('/');
+      location.reload([true]) 
     },
     regist:function(){
-      
+      var username=$("#registname").val();
+      var password=$("#registpsw").val();
+      var repsw=$("#rpsw").val();
+      if(username==''){
+        $(".redspan2").text('用户名不能为空');
+      }else if(password==''){
+        $(".redspan2").text('密码不能为空');
+      }else if(password!=repsw){
+        $(".redspan2").text('俩次密码不一致');
+      }else{
+        this.$http.post("/storyapi/register",qs.stringify({
+            'username':username,
+            'password':password
+          })).then(res=>{
+            $(".redspan2").text(res.data.msg);
+          },err=>{
+            console.log(err);
+          })
+      }
     },
     writeStory:function(){
       if(this.user!=''){
@@ -125,12 +226,86 @@ export default {
       }
     },
     storyClose:function(){
+      $(".chooseType").css("display","block");
+      $(".storyBox").css("display","none");
+      $("#contentBox").empty();
       $(".writeBox").css("display","none");
-      $(".headint").css("width","30%")
+      $(".headint").css("width","30%");
+      $(".addImg").css("display",'block');
+      $(".backphoto").css('display','none');
+      $(".backphoto img").attr('src','');
+      var file = document.getElementById('addImg');
+      file.value = '';
     },
     chonseType:function(e){
       this.type=$(e.target).text();
       $(".chooseType").css("display","none");
+      $(".storyBox").css("display","block");
+    },
+    chooseImg:function(){
+      $("#addImg").click();
+    },
+    changeImg:function(e){
+      var file=$(e.target)[0].files[0];
+      $(".backphoto img").attr("src", URL.createObjectURL(file));
+      $(".addImg").css("display",'none');
+      $(".backphoto").css('display','block');
+    },
+    addContent:function(){
+      var storyCon=$("<div class='storyContent' contenteditable='true'></div>");
+      storyCon.css({
+        height:'100px',
+        width:'80%',
+        marginLeft:'10%',
+        fontSize:'20px',
+        lineHeight:'20px',
+        border:'1px solid lightgray',
+        padding:'5px 10px',
+        marginTop:'20px'
+      })
+      $("#contentBox").append(storyCon);
+    },
+    publish:function(){
+      var photosrc=$("#addImg").val();
+      var headname=$("#storyHead").val();
+      var storytype=this.type;
+      var contents=$("#contentBox").children();
+      var conBox=[];
+      var msg='';
+      console.log(contents);
+      
+      for (let index = 0; index < contents.length; index++) {
+        var content=contents[index].textContent;
+        conBox.push(content);
+        if(content==''){
+          msg='页面内容不能为空'
+        }
+      }
+      if(this.type==''){
+        msg='请先选择故事类型'
+      }else if(headname==''){
+        msg='标题不能为空' 
+      }else if(contents.length==0){
+        msg='内容不能为空'
+      }
+
+      if(msg!=''){
+        this.$alert(msg, '提示', {});
+      }else{
+        this.$http.post("/storyapi/publish",qs.stringify({
+            'name':this.user,
+            'photosrc':photosrc,
+            'storyname':headname,
+            'storytype':storytype,
+            'con':conBox
+          },{arrayFormat: 'brackets'})).then(res=>{
+            if(res.data.code=1){
+              this.$alert(res.data.msg, '提示');
+            }
+          },err=>{
+            console.log(err);
+          })
+      }
     }
   }
 }
@@ -149,6 +324,7 @@ a{
   background-color: #fff;
   position: fixed;
   border-bottom: 1px solid lightgray;
+  z-index: 998;
 }
 .head .headimg{
   height: 50px;
@@ -191,6 +367,7 @@ a{
   position: absolute;
   right: 30px;
   top: 15px;
+  min-width: 500px;
 }
 .headint div{
   float: left;
@@ -221,6 +398,50 @@ a{
   background-image: url(../assets/default_hp.png);
   background-size: 100% 100%;
   margin-left: 40px;
+  position: relative;
+}
+.center .d{
+  display: block;
+  width: 14px;
+  height: 14px;
+  background-color: #FFF;
+  position: absolute;
+  top: 55px;
+  left: 22px;
+  border-top: 1px solid #dcdcdc;
+  border-right: 1px solid #dcdcdc;
+  -o-transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  display: none;
+}
+.setting{
+  width: 200px;
+  height: 180px;
+  position: absolute;
+  border: 1px solid #eff0f0;
+  top: 65px;
+  left: -120px;
+  z-index: 99999;
+  background-color: #fff;
+  display: none;
+}
+.setting ul{
+  padding: 0;
+  margin: 0;
+}
+.setting li{
+  list-style: none;
+  height: 60px;
+  width: 200px;
+  line-height: 60px;
+  font-size: 14px;
+  text-align: center;
+  border-bottom: 1px solid #eff0f0;
+}
+.setting li:hover{
+  background-color: whitesmoke;
 }
 .headint .login{
   height: 50px;
@@ -280,7 +501,6 @@ a{
   margin-top: 50px;
 }
 .btns{
-  margin-top: 80px;
   width: 80%;
   height: 80px;
   margin-left: 10%;
@@ -318,10 +538,12 @@ a{
   width: 100%;
   height: 110%;
   position: fixed;
-  background-color: #fff;;
-  z-index: 99999;
+  background-color: #fff;
+  z-index: 999;
   display: none;
   top: 0;
+  overflow: auto;
+  padding-bottom: 200px;
 }
 .publish{
   height: 50px;
@@ -370,6 +592,7 @@ a{
   text-align: center;
   height: 50px;
   line-height: 50px;
+  cursor: pointer;
 }
 .typelist p:hover{
   background-color: lightgray;
@@ -379,31 +602,77 @@ a{
   width: 70%;
   margin-left: 15%;
   border: 1px solid lightgray;
-  cursor: pointer;
+  box-shadow: 0px 0px 5px 5px lightgray;
+  position: relative;
+  padding-bottom: 100px;
+  display: none;
+}
+.backphoto{
+  width: 600px;
+  height: 500px;
+  margin: auto;
+  margin-top: 10px;
+  display: none;
+}
+.backphoto img{
+  width: 100%;
+  height: 100%;
 }
 .storyBox .addImg{
-  height: 100px;
+  height: 150px;
   width: 100%;
   position: relative;
+  background-color: whitesmoke;
+  cursor: pointer;
 }
 .addImg .backImg{
-  height: 60px;
-  width: 60px;
+  height: 80px;
+  width: 80px;
   position: absolute;
-  top: 20px;
+  top: 40px;
   left: 40%;
   background-image: url(../assets/img.jpg);
   background-size: 100% 100%;
 }
 .addImg p{
-  height: 100px;
+  height: 150px;
   width: 100px;
   font-size: 20px;
-  line-height: 100px;
+  line-height: 150px;
   position: absolute;
   left: 48%;
   color: gray;
 }
-
+.storyBox .storyHead{
+  height: 150px;
+  width: 100%;
+}
+#storyHead{
+  height: 100px;
+  width: 80%;
+  margin-left: 10%;
+  padding-left: auto;
+  text-align: center;
+  border: none;
+  font-size: 24px;
+  border-bottom: 1px solid #ebebeb;
+  font-weight: bold;
+}
+#storyHead::placeholder{
+  color: #ebebeb;
+}
+.addStoryTip{
+  height: 50px;
+  width: 50px;
+  background-image: url(../assets/wz.png);
+  background-size: 100% 100%;
+  cursor: pointer;
+  position: absolute;
+  bottom: 5px;
+  left: 48%;
+}
+#contentBox{
+  width: 100%;
+}
 </style>
   
