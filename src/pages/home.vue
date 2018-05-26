@@ -63,7 +63,6 @@
       <div class="writeBox">
         <header class="head">
           <div class="headint">
-            <!-- <el-button type="text" class="publish" @click='publish'>发布</el-button> -->
             <div class="publish" @click='publish'>发布</div>
             <div class="center"></div>
             <div class="storyClose" @click="storyClose">关闭</div>
@@ -80,10 +79,16 @@
         </section>
         <div class="storyBox">
           <div class="backphoto"><img src="" alt=""></div>
-          <div class="addImg" @click="chooseImg" >
-            <div class="backImg"></div>
-            <p>故事封面</p>
-            <input id="addImg" type="file" @change='changeImg' accept="image/*" style="display: none;">
+          <div class="addImg"  >
+            <iframe name="ansynform" frameborder="0" style="display: none"></iframe>
+            <form target="ansynform"  method="post" id="upload" @submit="doSubmit" enctype="multipart/form-data">
+              <div class="formtop" @click="chooseImg">
+                <div class="backImg"></div>
+                <p>故事封面</p>
+                <input id="addImg" type="file" @change='changeImg' name="photo" accept="image/*" style="display: none;">
+              </div>
+              <input type="submit" class="btn btn-block btn-success" id="upsubmit"  value="上传图片"/>
+            </form>
           </div>
           <div class="storyHead">
             <input type="text" id="storyHead"  placeholder="故事标题">
@@ -95,7 +100,9 @@
       <router-view></router-view>
     </div>
     <div class="smallhome">
-    
+        <header class="">
+
+        </header>
     </div>
   </div>
  
@@ -120,7 +127,7 @@ export default {
   },
   methods:{
     init:function(){
-      
+
       var initwidth=document.body.clientWidth;
       if(initwidth<=900){
           $(".bighome").css('display','none');
@@ -193,7 +200,6 @@ export default {
     },
     loginout:function(){
       document.cookie = "name=" +'';
-      // this.$router.push('/');
       location.reload([true]) 
     },
     regist:function(){
@@ -231,7 +237,7 @@ export default {
       $("#contentBox").empty();
       $(".writeBox").css("display","none");
       $(".headint").css("width","30%");
-      $(".addImg").css("display",'block');
+      $(".formtop").css("display",'block');
       $(".backphoto").css('display','none');
       $(".backphoto img").attr('src','');
       var file = document.getElementById('addImg');
@@ -248,7 +254,7 @@ export default {
     changeImg:function(e){
       var file=$(e.target)[0].files[0];
       $(".backphoto img").attr("src", URL.createObjectURL(file));
-      $(".addImg").css("display",'none');
+      $(".formtop").css("display",'none');
       $(".backphoto").css('display','block');
     },
     addContent:function(){
@@ -265,14 +271,27 @@ export default {
       })
       $("#contentBox").append(storyCon);
     },
+    doSubmit:function(e){
+      e.preventDefault();
+      var data =new FormData(e.target);
+      $.post({
+        url:"/storyapi/upload",
+        data:data,
+        contentType:false,
+        processData:false, //不会序列化 data，而是直接使用data
+        success:function(res){
+          console.log(res.msg);
+          
+          // this.$alert(res.msg, '提示');
+        }
+      });
+    },
     publish:function(){
-      var photosrc=$("#addImg").val();
       var headname=$("#storyHead").val();
       var storytype=this.type;
       var contents=$("#contentBox").children();
       var conBox=[];
       var msg='';
-      console.log(contents);
       
       for (let index = 0; index < contents.length; index++) {
         var content=contents[index].textContent;
@@ -294,7 +313,6 @@ export default {
       }else{
         this.$http.post("/storyapi/publish",qs.stringify({
             'name':this.user,
-            'photosrc':photosrc,
             'storyname':headname,
             'storytype':storytype,
             'con':conBox
@@ -619,11 +637,23 @@ a{
   height: 100%;
 }
 .storyBox .addImg{
-  height: 150px;
   width: 100%;
   position: relative;
   background-color: whitesmoke;
   cursor: pointer;
+}
+.formtop{
+  height: 150px;
+  background-color: #f9f9f9;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+#upload{
+  background-color: #fff;
+}
+#upsubmit{
+  width: 100px;
+  margin: auto;
 }
 .addImg .backImg{
   height: 80px;
@@ -631,7 +661,7 @@ a{
   position: absolute;
   top: 40px;
   left: 40%;
-  background-image: url(../assets/img.jpg);
+  background-image: url(../assets/img.png);
   background-size: 100% 100%;
 }
 .addImg p{

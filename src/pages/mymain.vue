@@ -27,8 +27,12 @@
                     <span @click='boxchange'>我的收藏</span>
                 </div>
                 <div class="storybox">
-                    <div class="box1">1</div>
-                    <div class="box2">2</div>
+                    <div class="box1">
+                        <story :list="storylist"></story>
+                    </div>
+                    <div class="box2">
+                        2
+                    </div>
                 </div>
             </div>
         </div>
@@ -36,12 +40,18 @@
 </template>
 
 <script>
+    import qs from 'qs'
     import $ from 'jquery'
+    import story from '../components/story'
     export default {
         name:'mymain',
+        components: {
+            story
+        },
         data () {
             return {
-                user:''
+                user:'',
+                storylist:[]
             }
         },
         mounted () {
@@ -49,11 +59,40 @@
         },
         methods: {
             init:function(){
+                var initwidth=document.body.clientWidth;
+                if(initwidth<=900){
+                    $(".my").css({"width":"100%","margin-left":"0px"});
+
+                }else{
+                    $(".my").css({"width":"70%","margin-left":"15%"});
+                }
+                window.onresize = function(){
+                    var width=document.body.clientWidth;
+                    if(width<=900){
+                        $(".my").css({"width":"100%","margin-left":"0px"});
+                    }else{
+                        $(".my").css({"width":"70%","margin-left":"15%"});
+                    }
+                }
+
                 var arr = document.cookie.split(";"); 
                 if(arr[0]!=''){
                     this.user=arr[0].split("=")[1];
                     $('.myname').text(this.user);
                 }
+
+                this.$http.get("/storyapi/storylist",{
+                    params: {
+                        'username':this.user,
+                    }
+                }).then(res=>{
+                    if(res.data.code==1){
+                        this.storylist =res.data.msg;
+                    }
+                },err=>{
+                    console.log(err);
+                    
+                })
             },
             goBack:function(){
                 window.history.back();

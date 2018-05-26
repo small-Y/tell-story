@@ -9,6 +9,7 @@ import Screm from '@/pages/screm'
 import Search from '@/pages/search'
 import Mymain from '@/pages/mymain'
 import Setting from '@/pages/setting'
+import User from '@/pages/user'
 
 Vue.use(Router)
 
@@ -39,6 +40,11 @@ export default new Router({
       path: '/setting',
       name: 'Setting',
       component: Setting
+    },
+    {
+      path: '/user/:title',
+      name: 'User',
+      component: User
     }
   ]
 })
