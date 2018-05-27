@@ -29,11 +29,11 @@
         <div class="share">
           <div class="sharepl sharebox">
             <p></p>
-            <span>0</span>
+            <span>{{L.noticecount}}</span>
           </div>
           <div class="sharesc sharebox">
             <p></p>
-            <span>0</span>
+            <span>{{L.nicecount}}</span>
           </div>
         </div>
       </div>

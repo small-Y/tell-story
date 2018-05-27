@@ -97,13 +97,40 @@
           <div id="contentBox"></div>
         </div>
       </div>
-      <router-view></router-view>
+      <!-- <router-view></router-view> -->
     </div>
     <div class="smallhome">
-        <header class="">
-
+        <header class="smallhead">
+          <div class="shimg"></div>
+          <div class="shright">
+              <router-link to="/search"><div class="shsearch"></div></router-link>
+              <div class="shwrite" @click="writeStory">写故事</div>
+              <template v-if="user!=''">
+                <div class="shcenter" @click='setcenter'>
+                  <s class="d"></s>
+                  <div class="shsetting">
+                    <ul>
+                      <router-link to="/mymain"><li>主页</li></router-link>
+                      <router-link to="/setting"><li>设置</li></router-link>
+                      <li @click='loginout'>登出</li>
+                    </ul>
+                  </div>
+                </div>
+              </template>
+              <template v-else>
+                <div class="samlllogin" @click="gologinPage">注册/登录</div>
+              </template>
+            </div>
         </header>
+        <div class="smallmenu">
+          <span @click='change' class="active"><router-link to="/main">首页</router-link></span>
+          <span @click='change'><router-link to="/discover">推荐</router-link></span>
+          <span @click='change'><router-link to="/true">真事</router-link></span>
+          <span @click='change'><router-link to="/screm">秘密</router-link></span>
+        </div>
+       
     </div>
+     <router-view></router-view>
   </div>
  
 </template>
@@ -127,23 +154,44 @@ export default {
   },
   methods:{
     init:function(){
-
       var initwidth=document.body.clientWidth;
-      if(initwidth<=900){
+      if(initwidth<=1100){
           $(".bighome").css('display','none');
           $(".smallhome").css('display','block');
+          $(".mainLeft").css({"width":"100%","margin-top":"0px","min-width":'0px'});
+          $(".mainRight").css('display','none');
+          $(".swiper").css({"width":"100%","height":"250px","margin-left":"0px","margin-top":"0px"});
+          $(".el-carousel__container").css("height","250px");
+          $(".storybox").css({"width":"94%","margin-left":"3%"});
       }else{
           $(".bighome").css('display','block');
           $(".smallhome").css('display','none');
+          $(".mainLeft").css({"width":"70%","margin-top":"80px","min-width":'1000px'});
+          $(".mainRight").css('display','inline-block');
+          $(".swiper").css({"width":"900px","height":"350px","margin-left":"18%","margin-top":"20px"});
+          $(".el-carousel__container").css("height","350px");
+          $(".storybox").css({"width":"63%","margin-left":"18%"});
       }
       window.onresize = function(){
         var width=document.body.clientWidth;
-        if(width<=900){
+        if(width<=1100){
           $(".bighome").css('display','none');
           $(".smallhome").css('display','block');
+          $(".mainLeft").css({"width":"100%","margin-top":"0px","min-width":'0px'});
+          $(".mainRight").css('display','none');
+          $(".swiper").css({"width":"100%","height":"250px","margin-left":"0px","margin-top":"0px"});
+          $(".el-carousel__container").css("height","250px");
+          $(".storybox").css({"width":"94%","margin-left":"3%"});
         }else{
+          console.log(111);
+          
           $(".bighome").css('display','block');
           $(".smallhome").css('display','none');
+          $(".mainLeft").css({"width":"70%","margin-top":"80px","min-width":'1000px'});
+          $(".mainRight").css('display','inline-block');
+          $(".swiper").css({"width":"900px","height":"350px","margin-left":"18%","margin-top":"20px"});
+          $(".el-carousel__container").css("height","350px");
+          $(".storybox").css({"width":"63%","margin-left":"18%"});
         }
       }
     },
@@ -162,9 +210,11 @@ export default {
       if(this.isshow){
         $('.d').css('display','block');
         $('.setting').css("display",'block');
+        $(".shsetting").css('display','block');
       }else{
         $('.d').css('display','none');
         $('.setting').css("display",'none');
+        $(".shsetting").css('display','none');
       }
     },
     gologinPage:function(){
@@ -330,6 +380,130 @@ export default {
 </script>
 
 <style scoped>
+.smallhead{
+  height: 80px;
+  width: 100%;
+}
+.smallhead .shimg{
+  height: 50px;
+  width: 50px;
+  border-radius: 20px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-image: url(../assets/logo.png);
+  background-size: 100% 100%;
+  cursor: pointer;
+}
+.smallhead .shright{
+  width: 65%;
+  height: 70px;
+  position: absolute;
+  right: 0;
+  top: 10px;
+}
+.shright .shsearch{
+  height: 50px;
+  width: 50px;
+  border-radius: 20px;
+  background-image: url(../assets/search.png);
+  background-size: 100% 100%;
+  position: absolute;
+  right: 160px;
+  top: 2px;
+}
+.shright .shwrite{
+  height: 40px;
+  width: 80px;
+  border-radius: 10px;
+  background-color: green;
+  color: #fff;
+  font-size: 16px;
+  line-height: 40px;
+  text-align: center;
+  position: absolute;
+  top: 5px;
+  right: 65px;
+}
+.shright .samlllogin{
+  height: 40px;
+  width: 70px;
+  border: 1px solid #27c4b5;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 40px;
+  text-align: center;
+  color: #27c4b5;
+  position: absolute;
+  right: 10px;
+  top: 5px;
+}
+.shright .shcenter{
+  height: 50px;
+  width: 50px;
+  background-image: url(../assets/default_hp.png);
+  background-size: 100% 100%;
+  position: absolute;
+  right: 5px;
+  top: 0px;
+}
+.shcenter .d{
+  width: 14px;
+  height: 14px;
+  background-color: #FFF;
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  border-top: 1px solid #dcdcdc;
+  border-right: 1px solid #dcdcdc;
+  -o-transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  display: none;
+} 
+.shcenter .shsetting{
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 70px;
+  right: 5px;
+  border: 1px solid whitesmoke;
+  display: none;
+}
+.shsetting ul{
+  list-style: none;
+  padding: 0 0;
+  margin: 0 0;
+}
+.shsetting ul li{
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  margin-top: 3px;
+  border-bottom: 1px solid whitesmoke;
+  background-color: #fff;
+}
+.smallmenu{
+  height: 50px;
+  width: 100%;
+}
+.smallmenu span{
+  display: block;
+  height: 50px;
+  width: 25%;
+  float: left;
+  text-align: center;
+  cursor: pointer;
+  line-height: 50px;
+  background-color: whitesmoke;
+}
+
+
+
+
+
+
 a{
   display: block;
   height: 100%;
@@ -339,6 +513,7 @@ a{
 .head{
   height: 80px;
   width: 100%;
+  min-width: 1500px;
   background-color: #fff;
   position: fixed;
   border-bottom: 1px solid lightgray;
