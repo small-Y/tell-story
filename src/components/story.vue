@@ -49,12 +49,6 @@ export default {
     return {
 
     }
-  },
-  methods: {
-    gouserpage:function(id){
-      console.log(id);
-      
-    }
   }
 }
 </script>
